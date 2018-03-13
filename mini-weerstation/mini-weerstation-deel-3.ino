@@ -120,24 +120,24 @@ byte minIcon[] = {
   0x1F
 };
 
-bool redrawLCD = true;             // geeft aan of het scherm moet worden bijgewerkt
+bool redrawLCD = true;                  // geeft aan of het scherm moet worden bijgewerkt
 
 
 //// DHT-SENSOR ////
 
-#include "DHT.h"                   // Bibliotheek voor DHT sensoren
-static const int dhtPin = 12;      // data pin van DHT sensor
+#include "DHT.h"                        // Bibliotheek voor DHT sensoren
+static const int dhtPin = 12;           // data pin van DHT sensor
 
 // Stel hier in welke DHT chip je gebruikt
-#define dhtType DHT11              // DHT 11
-//#define dhtType DHT22            // DHT 22  (AM2302), AM2321
-//#define dhtType DHT21            // DHT 21 (AM2301)
+#define dhtType DHT11                   // DHT 11
+//#define dhtType DHT22                 // DHT 22  (AM2302), AM2321
+//#define dhtType DHT21                 // DHT 21 (AM2301)
 
-DHT dht(dhtPin, dhtType);          // Initialiseer de DHT bibliotheek in variabele "dht"
+DHT dht(dhtPin, dhtType);               // Initialiseer de DHT bibliotheek in variabele "dht"
 
-float humidityVal;                 // Variabele voor luchtvochtigheid
-int intervalDHT = 1000;            // Tijd in milliseconden tussen het uitlezen van de DHT sensor
-long previousMillisDHT = 0;        // Tijdstip van laatste uitlezing DHT sensor
+float humidityVal;                      // Variabele voor luchtvochtigheid
+int intervalDHT = 1000;                 // Tijd in milliseconden tussen het uitlezen van de DHT sensor
+unsigned long previousMillisDHT = 0;    // Tijdstip van laatste uitlezing DHT sensor
 
 
 //// 1-WIRE DS18B20 SENSOR ////
@@ -154,7 +154,7 @@ float temperatureMin = 100.0;           // variabele om de laagst gemeten temper
 float temperatureMax = 0.0;             // variabele om de hoogst gemeten temperatuur in op te slaan
 
 int interval1Wire = 1000;               // Tijd in milliseconden tussen het uitlezen van de 1-wire sensor
-long previousMillis1Wire = 0;           // Tijdstip van laatste uitlezing 1-wire sensor
+unsigned long previousMillis1Wire = 0;           // Tijdstip van laatste uitlezing 1-wire sensor
 
 
 //// DRUKKNOP ////
@@ -168,7 +168,7 @@ int buttonLongPressTime = 0;            // tijd verstreken sinds indrukken knop
 int intervalButtonLongPress = 3000;     // Tijd in milliseconden totdat van "lang drukken" kan worden gesproken
 
 int intervalButton = 300;               // Tijd in milliseconden tussen het uitlezen van de drukknop
-long previousMillisButton = 0;          // Tijdstip van laatste uitlezing staat drukknop
+unsigned long previousMillisButton = 0; // Tijdstip van laatste uitlezing staat drukknop
 
 
 //// ALGEMEEN ////
