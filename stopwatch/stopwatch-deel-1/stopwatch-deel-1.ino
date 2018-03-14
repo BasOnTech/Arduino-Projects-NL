@@ -243,8 +243,8 @@ void updateLCD() {
         lcd.print("ms");             // schrijf ms
       }
 
-      // Als de stopwatch is gestopt
-      if (stopWatchTimeElapsed > 0) {
+      // Als de stopwatch is stop gezet
+      if (!stopWatchRuns && stopWatchTimeElapsed > 0) {
 
         // Bereken het midden voor de tekst met getMarginForCenter(formatTimeToString(stopWatchTimeElapsed), 2)
         // De offset van 2 komt door de volgende posities:
