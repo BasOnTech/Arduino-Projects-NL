@@ -2,8 +2,6 @@
    Bas on Tech - Arduino tutorial
    https://arduino-lessen.nl
 
-   Met dank aan Johan van het nalopen van de code.
-
    PIN AANSLUITINGEN LCD
 
    SDA is serial data
@@ -23,7 +21,9 @@
 */
 
 //// ALGEMEEN ////
-unsigned long currentMillis = 0;        // Variabele voor het aantal milliseconden sinds de Arduino is gestart
+
+// Variabele voor het aantal milliseconden sinds de Arduino is gestart
+unsigned long currentMillis = 0;       
 
 //// LCD SCHERM ////
 
@@ -39,7 +39,6 @@ unsigned long currentMillis = 0;        // Variabele voor het aantal millisecond
    Gebruik 0x3F als je chip PCF8574A hebt van Ti (Texas Instruments)
    De laatste twee getallen geven het formaat van je LCD aan
    bijvoorbeeld 20x4 of 16x2
-
 */
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 //LiquidCrystal_I2C lcd(0x3F, 16, 2);
