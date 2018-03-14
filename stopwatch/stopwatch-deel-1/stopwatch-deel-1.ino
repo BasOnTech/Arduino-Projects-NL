@@ -153,7 +153,7 @@ String formatTimeToString(unsigned long time) {
     mSeconds = "0" + mSeconds;
   }
 
-  return hours + String(":") + formatZeros(minutes) + String(":") + formatZeros(seconds) + String(".") + mSeconds;
+  return String(hours) + ":" + formatZeros(minutes) + ":" + formatZeros(seconds) + "." + String(mSeconds);
 }
 
 /* 
