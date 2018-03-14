@@ -125,7 +125,7 @@ bool redrawLCD = true;                  // geeft aan of het scherm moet worden b
 
 //// DHT-SENSOR ////
 
-#include "DHT.h"                        // Bibliotheek voor DHT sensoren
+#include <DHT.h>                        // Bibliotheek voor DHT sensoren
 static const int dhtPin = 12;           // data pin van DHT sensor
 
 // Stel hier in welke DHT chip je gebruikt
