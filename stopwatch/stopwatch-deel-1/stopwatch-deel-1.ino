@@ -2,6 +2,8 @@
    Bas on Tech - Arduino tutorial
    https://arduino-lessen.nl
 
+   Met dank aan Johan van het nalopen van de code.
+
    PIN AANSLUITINGEN LCD
 
    SDA is serial data
@@ -90,27 +92,27 @@ bool redrawLCD = true;                      // geeft aan of het scherm moet word
 
 
 //// STOPWATCH ////
-bool stopWatchRuns = false;                 // geeft aan of de stopwacht loopt
+bool stopWatchActive = false;                 // geeft aan of de stopwacht loopt
 unsigned long stopWatchMillis = 0;          // tijdstip in milliseconden waarop stopwatch begon te lopen
 unsigned long stopWatchTimeElapsed = 0;     // verstreken tijd in milliseconden sinds stopwatch begon te lopen
 
 // Start de stopwatch
 void stopWatchStart() {
   stopWatchMillis = currentMillis;
-  stopWatchRuns = true;
+  stopWatchActive = true;
   redrawLCD = true;
 }
 
 // Stopt de stopwatch
 void stopWatchStop() {
   stopWatchTimeElapsed = currentMillis - stopWatchMillis;
-  stopWatchRuns = false;
+  stopWatchActive = false;
   redrawLCD = true;
 }
 
 // Reset de stopwatch
 void stopWatchReset() {
-  stopWatchRuns = false;
+  stopWatchActive = false;
   stopWatchMillis = 0;
   stopWatchTimeElapsed = 0;
   buttonStartState = LOW;                  
@@ -133,16 +135,16 @@ String formatZeros(int number) {
 }
 
 // Maakt van de tijd in ms. een String bijv. "0:01:23.495" voor 0 uur, 1 minuut, 23 seconden en 495 honderdste.
-String formatTimeToString(long time) {
+String formatTimeToString(unsigned long time) {
 
-  long timeSeconds = time / 1000;       // zet de milliseconden om in seconden door te delen door 1000
-  int mSeconds = time % 1000;           // de rest milliseconden wat nog overblijft na het delen 
+  unsigned long timeSeconds = time / 1000;       // zet de milliseconden om in seconden door te delen door 1000
+  int mSeconds = time % 1000;                    // de rest milliseconden wat nog overblijft na het delen 
 
-  int hours = timeSeconds / 3600;       // bereken de uren door te delen door 3600 (3600 seconden = 60 seconden x 60 minuten)
-  int remainder = timeSeconds % 3600;   // bereken de overgebleven seconden door te rest-delen door 3600. (3600 seconden = 60 seconden x 60 minuten)
+  int hours = timeSeconds / 3600;                // bereken de uren door te delen door 3600 (3600 seconden = 60 seconden x 60 minuten)
+  int remainder = timeSeconds % 3600;            // bereken de overgebleven seconden door te rest-delen door 3600. (3600 seconden = 60 seconden x 60 minuten)
 
-  int minutes = remainder / 60;         // bereken de minuten door te delen door 60 (1 minuut = 60 seconden)
-  int seconds = remainder % 60;         // bereken de seconden door te rest-delen door 60 (1 minuut = 60 seconden)
+  int minutes = remainder / 60;                  // bereken de minuten door te delen door 60 (1 minuut = 60 seconden)
+  int seconds = remainder % 60;                  // bereken de seconden door te rest-delen door 60 (1 minuut = 60 seconden)
 
   // Maak van 9 -> "009" en van 87 -> "087"
   if (mSeconds < 10) {
@@ -178,7 +180,7 @@ void readButtonState() {
     if (buttonStartState == HIGH && buttonStartStatePrevious == LOW) {
 
       // Als de stopwatch nog niet loopt start deze. Loopt de stopwatch, stop deze.
-      if (!stopWatchRuns) {
+      if (!stopWatchActive) {
         stopWatchStart();
       } else {
         stopWatchStop();
@@ -189,7 +191,7 @@ void readButtonState() {
     }
 
     // Als de start knop wordt losgelaten en de stopwatch loopt
-    if (buttonStartState == LOW && buttonStartStatePrevious == HIGH && stopWatchRuns) {
+    if (buttonStartState == LOW && buttonStartStatePrevious == HIGH && stopWatchActive) {
       buttonStartStatePrevious = LOW;
     }
 
@@ -211,12 +213,12 @@ void updateLCD() {
   // Als het tijdsverschil met de vorige uitlezing groter is dan intervalLCD
   if (currentMillis - previousMillisLCD > intervalLCD) {
 
-    if (redrawLCD || stopWatchRuns) {
+    if (redrawLCD || stopWatchActive) {
 
       lcd.clear();
 
       // Als de stopwacth niet loopt en de verstreken tijd is 0
-      if (!stopWatchRuns && stopWatchTimeElapsed == 0) {
+      if (!stopWatchActive && stopWatchTimeElapsed == 0) {
         lcd.setCursor(0, 0);                 // zet de cursor op positie 1, regel 1
         lcd.print("DRUK OP DE STARTKNOP");
         lcd.setCursor(0, 2);                 // zet de cursor op positie 1, regel 3
@@ -224,7 +226,7 @@ void updateLCD() {
       }
 
       // Als de stopwatch loopt
-      if (stopWatchRuns) {
+      if (stopWatchActive) {
 
         // Bereken de verstreken tijd en maak deze op in het U:MM:SS.m formaat
         String formattedTime = formatTimeToString(currentMillis - stopWatchMillis);
@@ -244,7 +246,7 @@ void updateLCD() {
       }
 
       // Als de stopwatch is stop gezet
-      if (!stopWatchRuns && stopWatchTimeElapsed > 0) {
+      if (!stopWatchActive && stopWatchTimeElapsed > 0) {
 
         // Bereken het midden voor de tekst met getMarginForCenter(formatTimeToString(stopWatchTimeElapsed), 2)
         // De offset van 2 komt door de volgende posities:
