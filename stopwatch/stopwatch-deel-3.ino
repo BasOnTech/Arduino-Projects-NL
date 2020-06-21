@@ -47,7 +47,7 @@ const int LCDWidth = 20;
 const int LCDHeight = 4;
 
 /*
-   Dit druppel-icoon is online gemaakt met de LCD symbool generator op:
+   Deze iconen zijn online gemaakt met de LCD symbool generator op:
    https://maxpromer.github.io/LCD-Character-Creator/
 */
 const byte clockIcon[] = {
